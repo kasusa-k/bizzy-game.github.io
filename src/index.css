@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Motel';
+  src: url('./fonts/motel-king_bigfontsite.com.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
