@@ -1,4 +1,4 @@
-import {GroundMesh, MeshBuilder, PhysicsImpostor, Scene} from "@babylonjs/core";
+import {GroundMesh, MeshBuilder, PhysicsImpostor, Scene, StandardMaterial, Texture} from "@babylonjs/core";
 
 class Floor {
     ground: GroundMesh;
@@ -11,6 +11,13 @@ class Floor {
         );
 
         this.ground.position.y = -1;
+
+        const floorMat = new StandardMaterial("floorMat", scene);
+        floorMat.diffuseTexture = new Texture("/models/floor.jpg", scene);
+        console.log(floorMat.diffuseTexture.canRescale)
+        floorMat.diffuseTexture.scale(1)
+
+        this.ground.material = floorMat;
 
         this.ground.physicsImpostor = new PhysicsImpostor(
             this.ground,

@@ -1,17 +1,12 @@
 import {
     AbstractMesh,
     Color3,
-    Mesh,
-    MeshBuilder,
-    PhysicsImpostor,
-    Ray,
     Scene,
     SceneLoader,
     StandardMaterial,
     Vector3,
-    Animation, Collider
+    Animation,
 } from "@babylonjs/core";
-import {Space} from "@babylonjs/core/Maths/math.axis";
 
 type PersonProps = {
     position: Vector3;
@@ -19,11 +14,6 @@ type PersonProps = {
 }
 
 const boxSize = 2
-
-const forward = new Vector3(0, 0, boxSize);
-const back = new Vector3(0, 0, -boxSize);
-const left = new Vector3(boxSize, 0, 0);
-const right = new Vector3(-boxSize, 0, 0);
 
 const animation = new Animation(
     "myAnimation",
@@ -33,17 +23,30 @@ const animation = new Animation(
     Animation.ANIMATIONLOOPMODE_CYCLE
 );
 
-const speedRationAnimation = 2
+const animationMove = new Animation(
+    "animationMove",
+    "position",
+    30,
+    Animation.ANIMATIONTYPE_VECTOR3,
+    Animation.ANIMATIONLOOPMODE_CYCLE
+)
+
+const delay = (delayInms: number) => {
+    return new Promise(resolve => setTimeout(resolve, delayInms));
+}
 
 class Person {
     robot = new AbstractMesh("person");
     scene: Scene;
+    defaultPosition: Vector3
 
     constructor({position, scene}: PersonProps) {
         const boxColor = new StandardMaterial("box", scene);
         boxColor.diffuseColor = new Color3(.5, .1, .4);
 
         this.scene = scene;
+
+        this.defaultPosition = position
 
         SceneLoader.ImportMesh(null, '/models/', 'robot.glb', this.scene, (meshArray) => {
             this.robot = meshArray[0]
@@ -56,71 +59,54 @@ class Person {
 
 
     resetPosition() {
-        this.robot.position.setAll(0)
+        this.robot.position.set(this.defaultPosition.x, this.defaultPosition.y, this.defaultPosition.z)
     }
 
-    async moveForward() {
-        this.robot.animations = []
-        animation.setKeys([{
-            frame: 0,
-            value: this.robot.rotation.y
-        }, {
-            frame: 30,
-            value: -Math.PI / 2
-        }])
-        this.robot.animations.push(animation)
-        this.scene.beginAnimation(this.robot, 0, 30, false, speedRationAnimation, () => {
-            this.robot.moveWithCollisions(forward);
-        })
-        return Promise.resolve()
+    async moveForward(count = 1) {
+        return this.moveWithAnimation(new Vector3(0, 0, boxSize * count), -Math.PI / 2)
     }
 
-    async moveBack() {
-        this.robot.animations = []
-        animation.setKeys([{
-            frame: 0,
-            value: this.robot.rotation.y
-        }, {
-            frame: 30,
-            value: Math.PI / 2
-        }])
-        this.robot.animations.push(animation)
-        this.scene.beginAnimation(this.robot, 0, 30, false, speedRationAnimation, () => {
-            this.robot.moveWithCollisions(back);
-        })
-        return Promise.resolve()
+    async moveBack(count = 1) {
+        return this.moveWithAnimation(new Vector3(0, 0, -boxSize * count), Math.PI / 2)
     }
 
-    async moveLeft() {
-        this.robot.animations = []
-        animation.setKeys([{
-            frame: 0,
-            value: this.robot.rotation.y
-        }, {
-            frame: 30,
-            value: 0
-        }])
-        this.robot.animations.push(animation)
-        this.scene.beginAnimation(this.robot, 0, 30, false, speedRationAnimation, () => {
-            this.robot.moveWithCollisions(left);
+    async moveWithAnimation(newMovePosition: Vector3, newRotatePosition: number): Promise<void> {
+        return new Promise((resolve) => {
+            this.robot.animations = []
+            animation.setKeys([{
+                frame: 0,
+                value: this.robot.rotation.y
+            }, {
+                frame: 10,
+                value: newRotatePosition
+            }])
+            this.robot.animations.push(animation)
+
+            animationMove.setKeys([{frame: 0, value: this.robot.position}, {
+                frame: 30,
+                value: this.robot.position.add(newMovePosition)
+            }])
+
+            this.robot.animations.push(animationMove)
+
+
+            const distanceBetweenPositions = this.robot.position.subtract(this.robot.position.add(newMovePosition)).length()
+
+            const normalizeSpeedBetweenPositions = distanceBetweenPositions === 2 ? 2 : distanceBetweenPositions / 2
+
+            this.scene.beginAnimation(this.robot, 0, 30, false, normalizeSpeedBetweenPositions, async () => {
+                await delay(300)
+                resolve()
+            })
         })
-        return Promise.resolve()
     }
 
-    async moveRight() {
-        this.robot.animations = []
-        animation.setKeys([{
-            frame: 0,
-            value: this.robot.rotation.y
-        }, {
-            frame: 30,
-            value: -Math.PI
-        }])
-        this.robot.animations.push(animation)
-        this.scene.beginAnimation(this.robot, 0, 30, false, speedRationAnimation, () => {
-            this.robot.moveWithCollisions(right);
-        })
-        return Promise.resolve()
+    async moveLeft(count = 1) {
+        return this.moveWithAnimation(new Vector3(boxSize * count, 0, 0), 0);
+    }
+
+    async moveRight(count = 1) {
+        return this.moveWithAnimation(new Vector3(-boxSize * count, 0, 0), -Math.PI);
     }
 }
 
