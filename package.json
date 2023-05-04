@@ -1,0 +1,32 @@
+{
+  "name": "babylon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.ts",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babylonjs/core": "^6.0.0",
+    "@babylonjs/gui": "^6.0.0",
+    "@babylonjs/gui-editor": "^6.0.0",
+    "@babylonjs/inspector": "^6.0.0",
+    "@babylonjs/loaders": "^6.0.0",
+    "@babylonjs/materials": "^6.0.0",
+    "@babylonjs/serializers": "^6.0.0",
+    "@types/cannon": "^0.1.8",
+    "earcut": "^2.2.4",
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.2",
+    "webpack": "^5.76.2",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.1"
+  },
+  "dependencies": {
+    "cannon": "^0.6.2"
+  }
+}
