@@ -1,22 +1,30 @@
-import {AbstractMesh, Scene, SceneLoader, Vector3} from "@babylonjs/core";
+import {AbstractMesh, Mesh, Scene, SceneLoader, ShadowGenerator, Vector3} from "@babylonjs/core";
 
 type TreeProps = {
     position: Vector3;
     scene: Scene;
+    boxArray: AbstractMesh[]
+    shadowGenerator: ShadowGenerator
 }
 
 const scale = 2
 
 export class Tree {
     scene: Scene
-    tree = new AbstractMesh("tree");
-    constructor({position, scene}: TreeProps) {
+    mesh: AbstractMesh
+
+    constructor({position, scene, boxArray, shadowGenerator}: TreeProps) {
         this.scene = scene
+        this.mesh = new AbstractMesh(`tree_${position.x}_${position.y}_${position.z}`);
+        this.mesh.position = position
         SceneLoader.ImportMesh(null, '/models/', 'tree-2.glb', this.scene, (meshArray) => {
-            this.tree = meshArray[0]
-            this.tree.scaling = new Vector3(scale, scale, scale)
-            this.tree.position = position
-            this.tree.checkCollisions = true;
+            this.mesh = meshArray[0]
+            this.mesh.name = `tree_${position.x}_${position.y}_${position.z}`
+            this.mesh.scaling = new Vector3(scale, scale, scale)
+            this.mesh.position = position
+            boxArray.push(this.mesh)
+            shadowGenerator.addShadowCaster(this.mesh, true);
+            this.mesh.receiveShadows = true;
         })
     }
 
@@ -24,14 +32,20 @@ export class Tree {
 
 export class ChristmasTree {
     scene: Scene
-    tree = new AbstractMesh("tree");
-    constructor({position, scene}: TreeProps) {
+    mesh: AbstractMesh
+
+    constructor({position, scene, boxArray, shadowGenerator}: TreeProps) {
         this.scene = scene
+        this.mesh = new AbstractMesh(`christmas_tree_${position.x}_${position.y}_${position.z}`);
+        this.mesh.position = position
         SceneLoader.ImportMesh(null, '/models/', 'tree-1.glb', this.scene, (meshArray) => {
-            this.tree = meshArray[0]
-            this.tree.scaling = new Vector3(scale, scale, scale)
-            this.tree.position = position
-            this.tree.checkCollisions = true;
+            this.mesh = meshArray[0]
+            this.mesh.name = `christmas_tree_${position.x}_${position.y}_${position.z}`
+            this.mesh.scaling = new Vector3(scale, scale, scale)
+            this.mesh.position = position
+            boxArray.push(this.mesh)
+            shadowGenerator.addShadowCaster(this.mesh, true);
+            this.mesh.receiveShadows = true;
         })
     }
 

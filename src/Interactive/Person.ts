@@ -5,12 +5,13 @@ import {
     SceneLoader,
     StandardMaterial,
     Vector3,
-    Animation,
+    Animation, Animatable, ShadowGenerator,
 } from "@babylonjs/core";
 
 type PersonProps = {
     position: Vector3;
     scene: Scene;
+    shadowGenerator: ShadowGenerator
 }
 
 const boxSize = 2
@@ -36,13 +37,15 @@ const delay = (delayInms: number) => {
 }
 
 class Person {
-    robot = new AbstractMesh("person");
+    robot: AbstractMesh;
     scene: Scene;
     defaultPosition: Vector3
+    crashed = false
+    animation?: Animatable
 
-    constructor({position, scene}: PersonProps) {
-        const boxColor = new StandardMaterial("box", scene);
-        boxColor.diffuseColor = new Color3(.5, .1, .4);
+    constructor({position, scene, shadowGenerator}: PersonProps) {
+        this.robot = new AbstractMesh("person");
+        this.robot.position = new Vector3(-100, -100, -100)
 
         this.scene = scene;
 
@@ -50,15 +53,21 @@ class Person {
 
         SceneLoader.ImportMesh(null, '/models/', 'robot.glb', this.scene, (meshArray) => {
             this.robot = meshArray[0]
+            this.robot.name = `robot`
             this.robot.scaling = new Vector3(.3, .3, .3)
             this.robot.rotation.y = -Math.PI / 2
             this.robot.position = position
             this.robot.checkCollisions = true;
+            this.robot.receiveShadows = true
+            shadowGenerator.addShadowCaster(this.robot, true);
         })
     }
 
 
     resetPosition() {
+        if (this.animation) {
+            this.animation.pause()
+        }
         this.robot.position.set(this.defaultPosition.x, this.defaultPosition.y, this.defaultPosition.z)
     }
 
@@ -69,6 +78,11 @@ class Person {
     async moveBack(count = 1) {
         return this.moveWithAnimation(new Vector3(0, 0, -boxSize * count), Math.PI / 2)
     }
+
+    computeSpeed(distance: number) {
+        const speed = distance / 30;
+        return Math.max(2, Math.min(4, speed));
+    };
 
     async moveWithAnimation(newMovePosition: Vector3, newRotatePosition: number): Promise<void> {
         return new Promise((resolve) => {
@@ -89,12 +103,11 @@ class Person {
 
             this.robot.animations.push(animationMove)
 
-
             const distanceBetweenPositions = this.robot.position.subtract(this.robot.position.add(newMovePosition)).length()
 
-            const normalizeSpeedBetweenPositions = distanceBetweenPositions === 2 ? 2 : distanceBetweenPositions / 2
+            const normalizeSpeedBetweenPositions = this.computeSpeed(distanceBetweenPositions)
 
-            this.scene.beginAnimation(this.robot, 0, 30, false, normalizeSpeedBetweenPositions, async () => {
+            this.animation = this.scene.beginAnimation(this.robot, 0, 30, false, normalizeSpeedBetweenPositions, async () => {
                 await delay(300)
                 resolve()
             })
