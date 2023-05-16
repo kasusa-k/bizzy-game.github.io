@@ -27,6 +27,12 @@
     "webpack-dev-server": "^4.13.1"
   },
   "dependencies": {
-    "cannon": "^0.6.2"
+    "@typescript-eslint/eslint-plugin": "^5.59.6",
+    "@typescript-eslint/parser": "^5.59.6",
+    "cannon": "^0.6.2",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8"
   }
 }

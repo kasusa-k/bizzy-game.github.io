@@ -31,7 +31,7 @@ export class Padding {
         this.top = this.bottom = this.right = this.left = props[0];
         break;
       default:
-        throw new Error("Invalid padding");
+        throw new Error('Invalid padding');
     }
   }
 }
