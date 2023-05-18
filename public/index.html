@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="favicon.png" />
 <!--    <linl defer href="/canon.js" />-->
     <script src="/cannon.min.js"></script>
+    <link rel="stylesheet" href="/style/style.css" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1,maximum-scale=1.0, minimum-scale=1.0"
@@ -19,7 +20,7 @@
       }
 
       * {
-        font-family: "adigiana2" !important;
+        font-family: "adigiana2",serif !important;
       }
       body {
         margin: 0px;
@@ -32,7 +33,73 @@
   </head>
 
   <body>
-    <div id="loading">loading...</div>
-    <div id="controller"></div>
+    <div id="loading">
+      <div class="loading__body">
+        <div class="fullBizzy">
+          <img src="/images/full%20bizzy.png" width="278" height="260" alt="full bizzy" />
+        </div>
+        <div class="description">Загрузка...</div>
+      </div>
+    </div>
+    <div id="rightSide">
+        <img src="/images/bizzy.png" alt="bizzy" width="160" height="150" class="bizzy_image" />
+    <div id="controller">
+      <div class="controls">
+          <div class="control">
+            <label>
+              <select>
+                <option>Bizzy</option>
+              </select>
+            </label>
+            <label>
+              <select>
+                <option>Вперед</option>
+                <option>Назад</option>
+                <option>Влево</option>
+                <option>Вправо</option>
+              </select>
+            </label>
+            <label>
+              <select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+              </select>
+            </label>
+          </div>
+        <div class="control">
+          <label>
+            <select>
+              <option>Bizzy</option>
+            </select>
+          </label>
+          <label>
+            <select>
+              <option>Вперед</option>
+              <option>Назад</option>
+              <option>Влево</option>
+              <option>Вправо</option>
+            </select>
+          </label>
+          <label>
+            <select>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <button id="plus">+</button>
+
+      <button id="play">выполнить</button>
+    </div>
+    </div>
   </body>
 </html>

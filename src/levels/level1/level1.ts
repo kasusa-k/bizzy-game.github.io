@@ -4,18 +4,12 @@ import { Stone } from '../../Interactive/Stone';
 import { Bridge } from '../../Interactive/Bridge';
 import { River } from '../../Interactive/River';
 import { Road } from '../../Interactive/Road';
-import { actorButton } from './utils/actorButton';
-import { actionButton } from './utils/actionButton';
-import { moveButton } from './utils/moveButton';
-
-const sumSvg = '/images/sumLast.svg';
 
 export const generateLevel1 = (
   scene: Scene,
   boxArray: AbstractMesh[],
   shadowGenerator: ShadowGenerator,
 ): void => {
-  const controller = document.getElementById('controller');
   new Tree({
     scene,
     position: new Vector3(8, -1, 6),
@@ -137,34 +131,55 @@ export const generateLevel1 = (
 
   new Road({ scene, position: new Vector3(4, -0.5, 2), boxArray });
   new Road({ scene, position: new Vector3(4, -0.5, 6), boxArray });
-  new Road({ scene, position: new Vector3(4, -0.5, 0), boxArray });
+  new Road({
+    scene,
+    position: new Vector3(4, -0.5, 0),
+    boxArray,
+    callback: () => {
+      console.log('last road');
+      document.dispatchEvent(new Event('level1End'));
+      // const loadingBizzy = document.getElementById('loading');
+      // const fullBizzy = document.querySelector('.fullBizzy');
+      // const removeLoading = () => {
+      //   if (loadingBizzy) {
+      //     // fullBizzy[0].styl
+      //     loadingBizzy?.classList.remove('start');
+      //     loadingBizzy?.classList.add('end');
+      //     document.body.removeChild(loadingBizzy);
+      //   }
+      // };
+      // console.log(fullBizzy);
+      // fullBizzy?.addEventListener('animationend', removeLoading);
+      // fullBizzy?.removeEventListener('animationend', removeLoading);
+    },
+  });
 
-  if (controller) {
-    const div = document.createElement('div');
-    div.style.width = '66px';
-    div.style.height = '100%';
-    div.style.position = 'absolute';
-    div.style.top = '0';
-    div.style.left = '60%';
-    div.style.bottom = '60%';
-    div.style.zIndex = '100';
-    div.style.background = 'rgba(60, 40, 136, 0.7)';
-    document.body.appendChild(div);
-
-    const background = document.createElement('div');
-    background.id = 'background';
-    background.style.position = 'absolute';
-    background.style.top = '0';
-    background.style.left = '60%';
-    background.style.bottom = '0';
-    background.style.right = '0';
-    background.style.height = '100%';
-    background.style.background = 'rgba(0, 0, 0, 0.3)';
-
-    document.body.appendChild(background);
-
-    actorButton();
-    actionButton();
-    moveButton();
-  }
+  // if (controller) {
+  //   const div = document.createElement('div');
+  //   div.style.width = '66px';
+  //   div.style.height = '100%';
+  //   div.style.position = 'absolute';
+  //   div.style.top = '0';
+  //   div.style.left = '60%';
+  //   div.style.bottom = '60%';
+  //   div.style.zIndex = '100';
+  //   div.style.background = 'rgba(60, 40, 136, 0.7)';
+  //   document.body.appendChild(div);
+  //
+  //   const background = document.createElement('div');
+  //   background.id = 'background';
+  //   background.style.position = 'absolute';
+  //   background.style.top = '0';
+  //   background.style.left = '60%';
+  //   background.style.bottom = '0';
+  //   background.style.right = '0';
+  //   background.style.height = '100%';
+  //   background.style.background = 'rgba(0, 0, 0, 0.3)';
+  //
+  //   document.body.appendChild(background);
+  //
+  //   actorButton();
+  //   actionButton();
+  //   moveButton();
+  // }
 };

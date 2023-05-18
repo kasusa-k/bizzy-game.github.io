@@ -1,0 +1,134 @@
+canvas {
+    outline: none;
+}
+
+#loading {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 90;
+    background-color: #000;
+    background-image: url("/images/bg loading.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.loading__body {
+    background: rgba(238, 237, 241, 0.93);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 70px 110px;
+    margin: auto 80px;
+}
+
+#loading .description {
+    background: #3C2888;
+    border-radius: 15px;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 27px;
+    color: #fff;
+}
+
+.fullBizzy {
+    transition: transform .3s;
+}
+
+#loading.start .fullBizzy {
+    animation: loading 7s;
+    animation-fill-mode: forwards;
+}
+
+#loading.end .fullBizzy {
+    transform: translateX(90%);
+}
+
+@keyframes loading {
+    0% {
+        transform: translateX(0);
+    }
+    10% {
+        transform: translateX(10%);
+    }
+    100% {
+        transform: translateX(70%);
+    }
+}
+
+#rightSide {
+    position: absolute;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+#controller {
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    max-width: 440px;
+    margin-top: 160px;
+    height: 100%;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    padding: 36px 26px;
+    background-color: #9ADEE3;
+    flex-direction: column;
+}
+
+.bizzy_image {
+    align-self: end;
+    margin-right: 18px;
+    display: block;
+}
+
+.control {
+    display: flex;
+    gap: 5px;
+}
+
+.control select {
+    padding: 18px 20px;
+    font-size: 30px;
+    border: none;
+}
+
+#plus {
+    color: #88DE5F;
+    font-size: 64px;
+    align-self: end;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+
+#controller #play {
+    margin-top: auto;
+    margin-bottom: 30px;
+    background-color: #9ADEE3;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 46px;
+    padding: 10px 75px 10px 20px;
+    background-image: url("/images/play.svg");
+    border: none;
+    background-position: center right 20px;
+    background-repeat: no-repeat;
+    align-self: end;
+    cursor: pointer;
+}

@@ -1,6 +1,7 @@
 import {
   AbstractMesh,
   Color3,
+  Color4,
   Engine,
   PointLight,
   Scene,
@@ -73,6 +74,7 @@ const createScene = function (engine: Engine, canvas: HTMLCanvasElement) {
     cameraContrast: 0.7,
     cameraExposure: 1,
   });
+  scene.clearColor = new Color4(255, 255, 255, 255);
   scene.useRightHandedSystem = true;
 
   spawnCamera(scene);
