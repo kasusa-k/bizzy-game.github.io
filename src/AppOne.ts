@@ -5,6 +5,7 @@ import {
   Engine,
   PointLight,
   Scene,
+  SceneLoader,
   ShadowGenerator,
   Vector3,
 } from '@babylonjs/core';
@@ -17,6 +18,8 @@ import { AdvancedDynamicTexture } from '@babylonjs/gui';
 import { spawnCamera } from './utils/spawnCamera';
 import { generationPixelFloor } from './utils/generationPixelFloor';
 import { generateLevel1 } from './levels/level1/level1';
+import { ILoadingScreen } from '@babylonjs/core/Loading/loadingScreen';
+import { sleep } from './app';
 
 export class AppOne {
   engine: Engine;
@@ -66,7 +69,47 @@ const doMove = async (person: Person, direction: string, count: number) => {
   }
 };
 
+class CustomLoadingScreen implements ILoadingScreen {
+  loadingScreen: HTMLElement;
+  loadingUIBackgroundColor: string;
+  loadingUIText: string;
+
+  constructor() {
+    const div = document.getElementById('loading');
+    if (!div) {
+      throw new Error('loading div not found');
+    }
+    this.loadingScreen = div;
+    this.loadingUIBackgroundColor = '#fff';
+    this.loadingUIText = 'Loading...';
+  }
+
+  displayLoadingUI() {
+    this.loadingScreen.style.display = 'flex';
+  }
+
+  hideLoadingUI() {
+    this.loadingScreen.classList.remove('start');
+    this.loadingScreen.classList.add('end');
+    sleep(300).then(() => {
+      this.loadingScreen.style.display = 'none';
+      const rightSide = document.getElementById('rightSide');
+      rightSide?.classList.remove('none');
+    });
+  }
+}
+
 const createScene = function (engine: Engine, canvas: HTMLCanvasElement) {
+  engine.loadingScreen = new CustomLoadingScreen();
+
+  SceneLoader.Load('/models/', 'bridge.glb', engine);
+  SceneLoader.Load('/models/', 'robot.glb', engine);
+  SceneLoader.Load('/models/', 'road.glb', engine);
+  SceneLoader.Load('/models/', 'stone.glb', engine);
+  SceneLoader.Load('/models/', 'bridge.glb', engine);
+  SceneLoader.Load('/models/', 'tree-2.glb', engine);
+  SceneLoader.Load('/models/', 'tree-1.glb', engine);
+
   const scene = new Scene(engine);
   scene.createDefaultEnvironment({
     createSkybox: false,
@@ -99,42 +142,37 @@ const createScene = function (engine: Engine, canvas: HTMLCanvasElement) {
 
   const boxArray: AbstractMesh[] = [];
 
-  // const forwardButton = new Button({
-  //     name: 'start', text: 'start', onClick: async () => {
-  //         person.resetPosition()
-  //         person.crashed = false
-  //         if (moving) {
-  //             for await (const item of moving) {
-  //                 await doMove(person, item.direction, item.count)
-  //             }
-  //         } else {
-  //             console.log('no moving')
-  //         }
-  //     }
-  // }).getComponent();
-  //
-  // GUI.addControl(forwardButton)
+  const playButton = document.getElementById('play') as HTMLButtonElement;
+  const controls = document.querySelector('.controls') as Element;
+  const plusButton = document.getElementById('plus');
 
-  // scene.onKeyboardObservable.add((kbInfo) => {
-  //     switch (kbInfo.type) {
-  //         case KeyboardEventTypes.KEYDOWN:
-  //             switch (kbInfo.event.key) {
-  //                 case "w":
-  //                     person.moveForward(); // Двигаем куб вперед
-  //                     break;
-  //                 case "s":
-  //                     person.moveBack(); // Двигаем куб назад
-  //                     break;
-  //                 case "a":
-  //                     person.moveLeft(); // Двигаем куб вперед
-  //                     break;
-  //                 case "d":
-  //                     person.moveRight(); // Двигаем куб назад
-  //                     break;
-  //             }
-  //             break;
-  //     }
-  // });
+  plusButton?.addEventListener('click', () => {
+    const template = document.getElementById('template') as HTMLTemplateElement;
+    const clone = template.content.cloneNode(true);
+    controls.appendChild(clone);
+    const ctrl = controls.querySelectorAll('.controls .control');
+    if (ctrl.length === 3) {
+      plusButton.classList.add('none');
+    }
+  });
+
+  playButton?.addEventListener('click', async () => {
+    playButton.disabled = true;
+    const ctrl = controls.querySelectorAll('.controls .control');
+    const moving = Array.from(ctrl).map((control) => {
+      const move = Array.from(control.querySelectorAll('select')).map(
+        (select) => select.value,
+      );
+      console.log(move);
+      return {
+        direction: move[1],
+        count: Number(move[2]),
+      };
+    });
+    person.move(moving).then(() => {
+      playButton.disabled = false;
+    });
+  });
 
   generateLevel1(scene, boxArray, shadowGenerator);
 
@@ -149,10 +187,12 @@ const createScene = function (engine: Engine, canvas: HTMLCanvasElement) {
         if (currentBox.id === 'bridge') {
           alert('you won!');
         }
+        if (currentBox.id !== 'river') {
+          person.crashed = true;
+          person.resetPosition();
+        }
         console.log(i, boxArray[i]);
         // alert('врезался')
-        person.crashed = true;
-        person.resetPosition();
       }
     }
   });

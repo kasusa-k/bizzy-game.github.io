@@ -2,6 +2,10 @@ canvas {
     outline: none;
 }
 
+.none {
+    display: none !important;
+}
+
 #loading {
     position: fixed;
     left: 0;
@@ -13,7 +17,7 @@ canvas {
     background-image: url("/images/bg loading.jpg");
     background-size: cover;
     background-position: center;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
 }
@@ -131,4 +135,9 @@ canvas {
     background-repeat: no-repeat;
     align-self: end;
     cursor: pointer;
+}
+
+#controller #play[disabled] {
+    opacity: 5;
+    cursor: not-allowed;
 }

@@ -33,7 +33,7 @@
   </head>
 
   <body>
-    <div id="loading">
+    <div id="loading" class="start">
       <div class="loading__body">
         <div class="fullBizzy">
           <img src="/images/full%20bizzy.png" width="278" height="260" alt="full bizzy" />
@@ -41,7 +41,7 @@
         <div class="description">Загрузка...</div>
       </div>
     </div>
-    <div id="rightSide">
+    <div id="rightSide" class="none">
         <img src="/images/bizzy.png" alt="bizzy" width="160" height="150" class="bizzy_image" />
     <div id="controller">
       <div class="controls">
@@ -53,10 +53,10 @@
             </label>
             <label>
               <select>
-                <option>Вперед</option>
-                <option>Назад</option>
-                <option>Влево</option>
-                <option>Вправо</option>
+                <option value="forward">Вперед</option>
+                <option value="back">Назад</option>
+                <option value="left">Влево</option>
+                <option value="right">Вправо</option>
               </select>
             </label>
             <label>
@@ -70,6 +70,12 @@
               </select>
             </label>
           </div>
+      </div>
+      <button id="plus">+</button>
+
+      <button id="play">выполнить</button>
+    </div>
+      <template id="template">
         <div class="control">
           <label>
             <select>
@@ -78,10 +84,10 @@
           </label>
           <label>
             <select>
-              <option>Вперед</option>
-              <option>Назад</option>
-              <option>Влево</option>
-              <option>Вправо</option>
+              <option value="forward">Вперед</option>
+              <option value="back">Назад</option>
+              <option value="left">Влево</option>
+              <option value="right">Вправо</option>
             </select>
           </label>
           <label>
@@ -95,11 +101,7 @@
             </select>
           </label>
         </div>
-      </div>
-      <button id="plus">+</button>
-
-      <button id="play">выполнить</button>
-    </div>
+      </template>
     </div>
   </body>
 </html>

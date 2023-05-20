@@ -159,6 +159,29 @@ class Person {
       -Math.PI,
     );
   }
+
+  async move(moving: { direction: string; count: number }[]) {
+    console.log(this.crashed);
+    this.resetPosition();
+    if (this.crashed) return;
+    for await (const item of moving) {
+      const { direction, count } = item;
+      switch (direction) {
+        case 'forward':
+          await this.moveForward(count);
+          break;
+        case 'back':
+          await this.moveBack(count);
+          break;
+        case 'left':
+          await this.moveLeft(count);
+          break;
+        case 'right':
+          await this.moveRight(count);
+          break;
+      }
+    }
+  }
 }
 
 export default Person;
