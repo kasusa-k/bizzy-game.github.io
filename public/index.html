@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <!-- files in public folder are served as root. Here the favicon is taken from the public folder. -->
-    <link rel="icon" type="image/png" href="favicon.png" />
-<!--    <linl defer href="/canon.js" />-->
-    <script src="/cannon.min.js"></script>
-    <link rel="stylesheet" href="/style/style.css" />
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1,maximum-scale=1.0, minimum-scale=1.0"
+      name="description"
+      content="Web site created using create-react-app"
     />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
-    <title>Babylon.js</title>
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+<!--    <script src="/cannon.min.js"></script>-->
+    <title>Bizzy-Game</title>
+
     <style>
       @font-face {
         font-family: "adigiana2";
@@ -31,77 +45,18 @@
       }
     </style>
   </head>
-
   <body>
-    <div id="loading" class="start">
-      <div class="loading__body">
-        <div class="fullBizzy">
-          <img src="/images/full%20bizzy.png" width="278" height="260" alt="full bizzy" />
-        </div>
-        <div class="description">Загрузка...</div>
-      </div>
-    </div>
-    <div id="rightSide" class="none">
-        <img src="/images/bizzy.png" alt="bizzy" width="160" height="150" class="bizzy_image" />
-    <div id="controller">
-      <div class="controls">
-          <div class="control">
-            <label>
-              <select>
-                <option>Bizzy</option>
-              </select>
-            </label>
-            <label>
-              <select>
-                <option value="forward">Вперед</option>
-                <option value="back">Назад</option>
-                <option value="left">Влево</option>
-                <option value="right">Вправо</option>
-              </select>
-            </label>
-            <label>
-              <select>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-              </select>
-            </label>
-          </div>
-      </div>
-      <button id="plus">+</button>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-      <button id="play">выполнить</button>
-    </div>
-      <template id="template">
-        <div class="control">
-          <label>
-            <select>
-              <option>Bizzy</option>
-            </select>
-          </label>
-          <label>
-            <select>
-              <option value="forward">Вперед</option>
-              <option value="back">Назад</option>
-              <option value="left">Влево</option>
-              <option value="right">Вправо</option>
-            </select>
-          </label>
-          <label>
-            <select>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>6</option>
-            </select>
-          </label>
-        </div>
-      </template>
-    </div>
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
   </body>
 </html>
