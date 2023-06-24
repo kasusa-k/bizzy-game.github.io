@@ -9,12 +9,12 @@ import {
     Vector3
 } from "@babylonjs/core";
 import {NormalMaterial} from "@babylonjs/materials";
-import {ChristmasTree, Tree} from "./objects/Tree";
-import Stone from "./objects/Stone";
-import Bridge from "./objects/Bridge";
-import River from "./objects/River";
-import Road from "./objects/Road";
-import IEntity from "./objects/IEntity";
+import {ChristmasTree, Tree} from "../objects/Tree";
+import Stone from "../objects/Stone";
+import Bridge from "../objects/Bridge";
+import River from "../objects/River";
+import Road from "../objects/Road";
+import IEntity from "../objects/IEntity";
 
 export const generateGeneralLevel = (
     scene: Scene,

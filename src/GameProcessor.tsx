@@ -1,11 +1,12 @@
 import React, {useState} from "react";
-import Level1 from "./levels/level1";
-import {generateSubLevel1} from "./levels/level1/subLevel1_generator";
 import FullscreenComics from "./components/fullscreenComics";
-import {generateSubLevel2} from "./levels/level1/subLevel2_generator";
+import Level1 from "./levels/level1";
+import {generateSubLevel1} from "./levels/level1/generators/subLevel1_generator";
+import {generateSubLevel2} from "./levels/level1/generators/subLevel2_generator";
+import Level2 from "./levels/level2";
 
 export default function GameProcessor() {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(11);
 
     const nextStep = () => {
         setStep(step + 1);
@@ -33,6 +34,8 @@ export default function GameProcessor() {
                 return <FullscreenComics imageSrc="/images/comics_7.png" backgroundColor="#F7F2BA" onClick={nextStep} />
             case 10:
                 return <FullscreenComics imageSrc="/images/comics_8.png" backgroundColor="#FFFFFF" onClick={nextStep} />
+            case 11:
+                return <Level2 onFinish={nextStep} />
             default:
                 return <FullscreenComics imageSrc="/images/comics_default.jpg" backgroundColor="#9ADEE3" onClick={nextStep} />
         }

@@ -1,13 +1,14 @@
 import React, {CSSProperties, useEffect, useRef} from "react";
 import createEngine from "./EngineLoader";
 import {CameraOptions, LevelGenerator, ModelOptions} from "./utils/engineTypes";
+import {Engine, Scene} from "@babylonjs/core";
 
 interface SceneProps {
     canvasStyle: CSSProperties,
     models: ModelOptions[] | any[],
     cameraOptions: CameraOptions,
     levelGenerator: LevelGenerator,
-    onRender?: () => void
+    onRender?: (engine: Engine, scene: Scene) => void
 }
 
 export default function SceneComponent({ canvasStyle, models, cameraOptions, levelGenerator, onRender }: SceneProps) {
@@ -22,7 +23,7 @@ export default function SceneComponent({ canvasStyle, models, cameraOptions, lev
 
         engine.runRenderLoop(() => {
             if (!scene.isLoading) {
-                onRender?.();
+                onRender?.(engine, scene);
             }
 
             scene.render();

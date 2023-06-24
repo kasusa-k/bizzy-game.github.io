@@ -1,7 +1,7 @@
 import React, {ReactElement, useEffect, useRef, useState} from "react";
 import './styles.sass';
 import SceneComponent from "../../SceneComponent";
-import {generateGeneralLevel} from "./generalLevel_generator";
+import {generateGeneralLevel} from "./generators/generalLevel_generator";
 import {AbstractMesh, Scene, ShadowGenerator, Vector3} from "@babylonjs/core";
 import Controls, {PersonControl} from "./components/controls";
 import Person from "./objects/Person";
@@ -90,21 +90,22 @@ export default function Level1({ onFinish, requiredGears, sublevelGenerator, max
             if (entity.collideAction == null)
                 continue;
 
-            if (entity.isCollideWith(person.robot)) {
-                entity.onCollide();
+            if (!entity.isCollideWith(person.robot)) {
+                continue;
+            }
 
-                if (entity.collideAction === "crash") {
-                    callOops();
-                } else if (entity.collideAction === "finish") {
-                    finished = true;
+            entity.onCollide();
+            if (entity.collideAction === "crash") {
+                callOops();
+            } else if (entity.collideAction === "pickup") {
+                pickedGears++;
+            } else if (entity.collideAction === "finish") {
+                finished = true;
 
-                    if (pickedGears !== requiredGears) {
-                        callNotCompleted();
-                    } else {
-                        onFinish?.();
-                    }
-                } else if (entity.collideAction === "pickup") {
-                    pickedGears++;
+                if (pickedGears !== requiredGears) {
+                    callNotCompleted();
+                } else {
+                    onFinish?.();
                 }
             }
         }
@@ -132,10 +133,10 @@ export default function Level1({ onFinish, requiredGears, sublevelGenerator, max
                         alphaLimit: [4.715, 4.715]
                     }}
                     levelGenerator={(scene: Scene, boxArray: AbstractMesh[], shadowGenerator: ShadowGenerator) => {
-                        const gE = generateGeneralLevel(scene, boxArray, shadowGenerator);
-                        const [p, sEntities] = sublevelGenerator(scene, boxArray, shadowGenerator);
+                        const levelEntities = generateGeneralLevel(scene, boxArray, shadowGenerator);
+                        const [p, subLevelEntities] = sublevelGenerator(scene, boxArray, shadowGenerator);
                         person = p;
-                        entities = [...gE, ...sEntities];
+                        entities = [...levelEntities, ...subLevelEntities];
                     }}
                 />
                 <div className="level1_gui">

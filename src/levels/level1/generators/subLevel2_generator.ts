@@ -1,8 +1,8 @@
 import {AbstractMesh, Scene, ShadowGenerator, Vector3} from "@babylonjs/core";
-import IEntity from "./objects/IEntity";
-import Person from "./objects/Person";
-import Gear from "./objects/Gear";
-import Stone from "./objects/Stone";
+import IEntity from "../objects/IEntity";
+import Person from "../objects/Person";
+import Gear from "../objects/Gear";
+import Stone from "../objects/Stone";
 
 export const generateSubLevel2 = (
     scene: Scene,

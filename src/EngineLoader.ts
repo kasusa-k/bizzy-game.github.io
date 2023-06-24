@@ -17,7 +17,9 @@ export default function createEngine(
     cameraOptions: CameraOptions,
     levelGenerator: LevelGenerator
 ): EngineLoaderResult {
-    const engine = new Engine(canvas);
+    const engine = new Engine(canvas, true, {
+        stencil: true,
+    });
     engine.adaptToDeviceRatio = true;
     engine.renderEvenInBackground = true;
 
