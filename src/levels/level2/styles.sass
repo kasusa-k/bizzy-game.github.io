@@ -1,2 +1,28 @@
 .level2
   height: 100%
+  display: flex
+  flex-direction: row
+
+  &_gui
+    width: 20%
+    display: flex
+    flex-direction: column
+    gap: 70px
+
+    &-item
+      display: flex
+      flex-direction: column
+      margin: 0 auto 0 auto
+
+      span
+        user-select: none
+        font-size: 35px
+        margin: 0 auto 0 auto
+
+      img
+        width: 120px
+        height: 120px
+
+      &.bizzy img
+        width: 180px
+        height: 180px

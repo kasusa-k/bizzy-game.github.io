@@ -3,7 +3,7 @@ import {
     AbstractMesh,
     Color3,
     HighlightLayer,
-    Mesh,
+    Mesh, PickingInfo,
     Scene,
     SceneLoader,
     ShadowGenerator,
@@ -12,13 +12,14 @@ import {
 
 export default class Kettle implements IEntity {
     public mesh?: AbstractMesh;
+    private meshArray: AbstractMesh[] = [];
 
     constructor(
         private readonly position: Vector3,
         scene: Scene,
         boxArray: AbstractMesh[],
         shadowGenerator: ShadowGenerator,
-        highlightLayer: HighlightLayer
+        private readonly highlightLayer: HighlightLayer
     ) {
         SceneLoader.ImportMesh(
             null,
@@ -27,6 +28,7 @@ export default class Kettle implements IEntity {
             scene,
             (meshArray) => {
                 this.mesh = meshArray[0];
+                this.meshArray = meshArray;
                 this.mesh.name = 'kettle';
                 this.mesh.scaling = new Vector3(1, 1, 1);
                 this.mesh.position = position;
@@ -38,5 +40,16 @@ export default class Kettle implements IEntity {
                 highlightLayer.addMesh(meshArray[2] as Mesh, Color3.Green(), true);
             },
         );
+    }
+
+    highlightEntity(toggle: boolean): void {
+        this.highlightLayer.removeMesh(this.meshArray[1] as Mesh);
+        this.highlightLayer.removeMesh(this.meshArray[2] as Mesh);
+        this.highlightLayer.addMesh(this.meshArray[1] as Mesh, toggle ? Color3.Green() : Color3.White(), false);
+        this.highlightLayer.addMesh(this.meshArray[2] as Mesh, toggle ? Color3.Green() : Color3.White(), false);
+    }
+
+    isPicked(pickResult: PickingInfo): boolean {
+        return pickResult.pickedMesh?.name.startsWith('Electric_kettle') ?? false;
     }
 }
