@@ -19,7 +19,7 @@ export const generateLevel2 = (
     boxArray: AbstractMesh[],
     shadowGenerator: ShadowGenerator
 ): IEntity[] => {
-    const highlightLayer = new HighlightLayer('hl1', scene, {
+    const entitiesHighlighter = new HighlightLayer('hlEntities', scene, {
         blurVerticalSize: 0.3,
         blurHorizontalSize: 0.3,
     });
@@ -41,10 +41,10 @@ export const generateLevel2 = (
         },
     );
 
-    const fridge = new Fridge(new Vector3(0, 0, 0), scene, boxArray, shadowGenerator, highlightLayer);
-    const fryingPan = new FryingPan(new Vector3(10.8, 2.05, 1.9), scene, boxArray, shadowGenerator, highlightLayer);
-    const dishSink = new DishSink(new Vector3(9.2, 0, 3.65), scene, boxArray, shadowGenerator, highlightLayer);
-    const kettle = new Kettle(new Vector3(6, -1.73, -5), scene, boxArray, shadowGenerator, highlightLayer);
+    const fridge = new Fridge(new Vector3(0, 0, 0), scene, boxArray, shadowGenerator, entitiesHighlighter);
+    const fryingPan = new FryingPan(new Vector3(10.8, 2.05, 1.9), scene, boxArray, shadowGenerator, entitiesHighlighter);
+    const dishSink = new DishSink(new Vector3(9.2, 0, 3.65), scene, boxArray, shadowGenerator, entitiesHighlighter);
+    const kettle = new Kettle(new Vector3(6, -1.73, -5), scene, boxArray, shadowGenerator, entitiesHighlighter);
 
     return [fridge, dishSink, fryingPan, kettle];
 }

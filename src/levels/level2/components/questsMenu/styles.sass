@@ -1,0 +1,43 @@
+.quests-menu
+  display: flex
+  flex-direction: column
+  padding: 50px
+  border-radius: 35px
+  background: white
+
+  &_header
+    display: flex
+    justify-content: space-between
+
+    h1
+      margin: auto 0 auto 0
+      font-size: 50px
+      font-weight: normal
+
+    img
+      width: 63px
+      height: 63px
+
+      &:hover
+        cursor: pointer
+
+  &_list
+    margin-left: 20px
+    display: flex
+    flex-direction: column
+    gap: 20px
+    font-size: 40px
+
+    li
+      display: flex
+      gap: 70px
+      justify-content: space-between
+
+      &::marker
+        content: "•"
+        color: black
+
+      span
+        background: #D61010
+        border-radius: 20px
+        padding: 6px

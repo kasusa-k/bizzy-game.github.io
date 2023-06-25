@@ -4,6 +4,8 @@ import SceneComponent from "../../SceneComponent";
 import {generateLevel2} from "./level_generator";
 import {AbstractMesh, Scene, ShadowGenerator} from "@babylonjs/core";
 import IEntity from "./objects/IEntity";
+import Overlay, {createOverlayObj} from "../../components/overlay";
+import QuestsMenu from "./components/questsMenu";
 
 interface Level2Props {
     onFinish: () => void
@@ -13,10 +15,13 @@ export default function Level2({}: Level2Props) {
     let scene: Scene;
     let entities: IEntity[] = [];
     let pickedEntity: IEntity | null;
+    let questsOverlay = createOverlayObj();
 
     const onMouseClick = (event: MouseEvent) => {
         if (!pickedEntity)
             return;
+
+        // TODO: open correct quest
     }
 
     const onMouseMove = (event: MouseEvent) => {
@@ -55,15 +60,10 @@ export default function Level2({}: Level2Props) {
         };
     });
 
-    const onRender = () => {
-
-    }
-
     return (
         <>
             <div className="level2">
                 <SceneComponent
-                    onRender={onRender}
                     canvasStyle={{ width: '80%', height: '100%' }}
                     models={[
                         ['/models/', 'dishSink.glb'],
@@ -90,12 +90,15 @@ export default function Level2({}: Level2Props) {
                         <img src="/images/bizzy.png" />
                         <span>Bizzy</span>
                     </div>
-                    <div className="level2_gui-item">
+                    <div className="level2_gui-item" onClick={() => questsOverlay.show()}>
                         <img src="/images/quests.png" />
                         <span>Квесты</span>
                     </div>
                 </div>
             </div>
+            <Overlay obj={questsOverlay} hiddenDefault>
+                <QuestsMenu onClose={() => questsOverlay.hide()} />
+            </Overlay>
         </>
     )
 }

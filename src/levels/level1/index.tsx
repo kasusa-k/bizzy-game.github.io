@@ -6,7 +6,7 @@ import {AbstractMesh, Scene, ShadowGenerator, Vector3} from "@babylonjs/core";
 import Controls, {PersonControl} from "./components/controls";
 import Person from "./objects/Person";
 import IEntity from "./objects/IEntity";
-import Overlay from "../../components/overlay";
+import Overlay, {createOverlayObj} from "../../components/overlay";
 import BizzyDialog from "../../components/bizzyDialog";
 
 function getIsMeshOutsideOfMap(mesh: AbstractMesh, [xMax, xMin]: [number, number], [zMax, zMin]: [number, number]) {
@@ -25,9 +25,9 @@ interface Level1Props {
 }
 
 export default function Level1({ onFinish, requiredGears, sublevelGenerator, maxControls }: Level1Props) {
-    const taskOverlay: { hide?: () => void } = {};
-    const oopsOverlay: { hide?: () => void, show?: () => void } = {};
-    const notCompletedOverlay: { hide?: () => void, show?: () => void } = {};
+    const taskOverlay = createOverlayObj();
+    const oopsOverlay = createOverlayObj();
+    const notCompletedOverlay = createOverlayObj();
 
     let person: Person;
     let entities: IEntity[];
