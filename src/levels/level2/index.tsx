@@ -22,7 +22,7 @@ enum QuestsEnum {
 }
 
 export default function Level2({}: Level2Props) {
-    const [currentQuest, setCurrentQuest] = useState(QuestsEnum.Products);
+    const [currentQuest, setCurrentQuest] = useState(QuestsEnum.None);
 
     let scene: Scene;
     let entities: IEntity[] = [];
