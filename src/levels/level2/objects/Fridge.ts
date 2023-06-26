@@ -9,8 +9,10 @@ import {
     ShadowGenerator,
     Vector3
 } from "@babylonjs/core";
+import {ObjectType} from "./ObjectType";
 
 export default class Fridge implements IEntity {
+    public type = ObjectType.Fridge;
     public mesh?: AbstractMesh;
     private meshArray: AbstractMesh[] = [];
 

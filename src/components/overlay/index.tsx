@@ -22,7 +22,7 @@ interface OverlayProps {
 }
 
 export default function Overlay({ obj, children, hiddenDefault }: OverlayProps) {
-    obj.isShow = hiddenDefault ?? true;
+    obj.isShow = hiddenDefault != null ? !hiddenDefault : false;
 
     const overlayRef = useRef<HTMLDivElement>(null)
     obj.hide = () => {

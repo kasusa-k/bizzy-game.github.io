@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import './styles.sass';
 import SceneComponent from "../../SceneComponent";
 import {generateLevel2} from "./level_generator";
@@ -6,12 +6,24 @@ import {AbstractMesh, Scene, ShadowGenerator} from "@babylonjs/core";
 import IEntity from "./objects/IEntity";
 import Overlay, {createOverlayObj} from "../../components/overlay";
 import QuestsMenu from "./components/questsMenu";
+import {ObjectType} from "./objects/ObjectType";
+import ProductsQuest from "./quests/products";
 
 interface Level2Props {
     onFinish: () => void
 }
 
+enum QuestsEnum {
+    None,
+    Products,
+    Donuts,
+    Kettle,
+    Wash,
+}
+
 export default function Level2({}: Level2Props) {
+    const [currentQuest, setCurrentQuest] = useState(QuestsEnum.Products);
+
     let scene: Scene;
     let entities: IEntity[] = [];
     let pickedEntity: IEntity | null;
@@ -21,10 +33,19 @@ export default function Level2({}: Level2Props) {
         if (!pickedEntity)
             return;
 
+        if (pickedEntity.type === ObjectType.Fridge) {
+            setCurrentQuest(QuestsEnum.Products);
+        }
         // TODO: open correct quest
     }
 
     const onMouseMove = (event: MouseEvent) => {
+        if (questsOverlay.isShow) {
+            pickedEntity?.highlightEntity(false);
+            pickedEntity = null;
+            return;
+        }
+
         if (!scene)
             return;
 
@@ -60,7 +81,7 @@ export default function Level2({}: Level2Props) {
         };
     });
 
-    return (
+    const roomPage = () => {return (
         <>
             <div className="level2">
                 <SceneComponent
@@ -99,6 +120,27 @@ export default function Level2({}: Level2Props) {
             <Overlay obj={questsOverlay} hiddenDefault>
                 <QuestsMenu onClose={() => questsOverlay.hide()} />
             </Overlay>
+        </>
+    )}
+
+    const getPage = () => {
+        switch (currentQuest) {
+            case QuestsEnum.None:
+                return roomPage();
+            case QuestsEnum.Products:
+                return <ProductsQuest />;
+            case QuestsEnum.Donuts:
+                break;
+            case QuestsEnum.Kettle:
+                break;
+            case QuestsEnum.Wash:
+                break;
+        }
+    }
+
+    return (
+        <>
+            {getPage()}
         </>
     )
 }

@@ -9,8 +9,10 @@ import {
     ShadowGenerator,
     Vector3
 } from "@babylonjs/core";
+import {ObjectType} from "./ObjectType";
 
 export default class DishSink implements IEntity {
+    public type = ObjectType.DishSink;
     public mesh?: AbstractMesh;
     private meshArray: AbstractMesh[] = [];
 

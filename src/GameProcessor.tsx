@@ -6,7 +6,7 @@ import {generateSubLevel2} from "./levels/level1/generators/subLevel2_generator"
 import Level2 from "./levels/level2";
 
 export default function GameProcessor() {
-    const [step, setStep] = useState(11);
+    const [step, setStep] = useState(1);
 
     const nextStep = () => {
         setStep(step + 1);

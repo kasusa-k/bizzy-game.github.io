@@ -9,8 +9,10 @@ import {
     ShadowGenerator,
     Vector3
 } from "@babylonjs/core";
+import {ObjectType} from "./ObjectType";
 
 export default class FryingPan implements IEntity {
+    public type = ObjectType.FryingPan;
     public mesh?: AbstractMesh;
     private meshArray: AbstractMesh[] = [];
 
